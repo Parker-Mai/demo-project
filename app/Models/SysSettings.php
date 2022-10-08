@@ -11,5 +11,17 @@ class SysSettings extends Model
 
     protected $table = 'lm_sys_settings';
 
-    protected $fillable = [];
+    protected $fillable = [
+        'sys_name',
+        'sys_logo',
+        'sys_start_date',
+        'sys_end_date',
+        'sys_deny_ip',
+        'sys_api_id',
+        'sys_api_hashkey',
+        'sys_api_hashiv',
+        'sys_api_ctc_id',
+        'sys_api_ctc_hashkey',
+        'sys_api_ctc_hashiv'
+    ];
 }

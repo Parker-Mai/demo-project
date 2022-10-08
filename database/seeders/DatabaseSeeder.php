@@ -13,6 +13,7 @@ use App\Models\Accounts;
 use App\Models\Articles;
 use App\Models\Products;
 use App\Models\Permissions;
+use App\Models\SysSettings;
 use App\Models\SitemapFrames;
 use App\Models\MemberAddresses;
 use App\Models\ModuleCategorys;
@@ -421,6 +422,24 @@ class DatabaseSeeder extends Seeder
             }
         //縣市區域 END
 
+        //系統資訊設定 START
+            SysSettings::factory()->create([
+                'sys_name'                  => 'ChoChoco',
+                'sys_logo'                  => '',
+                'sys_start_date'            => '',
+                'sys_end_date'              => '',
+                'sys_deny_ip'               => '',
+
+                'sys_api_id'                => '2000132',
+                'sys_api_hashkey'           => '5294y06JbISpM5x9',
+                'sys_api_hashiv'            => 'v77hoKGq4kWxNNIS',
+
+                'sys_api_ctc_id'            => '2000933',
+                'sys_api_ctc_hashkey'       => 'XBERn1YOvpM9nfZc',
+                'sys_api_ctc_hashiv'        => 'h1ONHk4P4yqbl5LK',
+            ]);
+        //系統資訊設定 END
+
         //系統模組 START
             $modules = [
                 'sys_settings' => [
@@ -760,7 +779,7 @@ class DatabaseSeeder extends Seeder
                     'type_content_layout_id'=> '9',
                     'type_list_layout_id'   => '0',
                     'use_module_model'      => '1',
-                    'module_id'             => '9',
+                    'module_id'             => '10',
                     'is_index'              => '0',
                     'is_disabled'           => '0',
                     'parent_frame_id'       => '0',
@@ -774,7 +793,7 @@ class DatabaseSeeder extends Seeder
                     'type_content_layout_id'=> '4',
                     'type_list_layout_id'   => '2',
                     'use_module_model'      => '1',
-                    'module_id'             => '8',
+                    'module_id'             => '9',
                     'is_index'              => '0',
                     'is_disabled'           => '0',
                     'parent_frame_id'       => '2',
@@ -788,7 +807,7 @@ class DatabaseSeeder extends Seeder
                     'type_content_layout_id'=> '4',
                     'type_list_layout_id'   => '3',
                     'use_module_model'      => '1',
-                    'module_id'             => '8',
+                    'module_id'             => '9',
                     'is_index'              => '0',
                     'is_disabled'           => '0',
                     'parent_frame_id'       => '2',
@@ -802,7 +821,7 @@ class DatabaseSeeder extends Seeder
                     'type_content_layout_id'=> '4',
                     'type_list_layout_id'   => '3',
                     'use_module_model'      => '1',
-                    'module_id'             => '8',
+                    'module_id'             => '9',
                     'is_index'              => '0',
                     'is_disabled'           => '0',
                     'parent_frame_id'       => '2',
@@ -816,7 +835,7 @@ class DatabaseSeeder extends Seeder
                     'type_content_layout_id'=> '10',
                     'type_list_layout_id'   => '0',
                     'use_module_model'      => '1',
-                    'module_id'             => '10',
+                    'module_id'             => '11',
                     'is_index'              => '0',
                     'is_disabled'           => '0',
                     'parent_frame_id'       => '0',
