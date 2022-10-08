@@ -13,11 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('lm_product_images', function (Blueprint $table) {
+        Schema::create('lm_sys_settings', function (Blueprint $table) {
             $table->id();
-            $table->Integer('product_id');
-            $table->string('product_img');
-            $table->Interger('order_rank');
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lm_product_images');
+        Schema::dropIfExists('lm_sys_settings');
     }
 };

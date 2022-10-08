@@ -423,6 +423,12 @@ class DatabaseSeeder extends Seeder
 
         //系統模組 START
             $modules = [
+                'sys_settings' => [
+                    'module_display_name'       => '系統資訊',
+                    'module_model_name'         => 'App\Models\SysSettings',
+                    'module_controller_name'    => 'App\Http\Controllers\SysSettingController',
+                    'category_id'               => 1,
+                ],
                 'modules' => [
                     'module_display_name'       => '系統模組',
                     'module_model_name'         => 'App\Models\Modules',
@@ -556,6 +562,11 @@ class DatabaseSeeder extends Seeder
 
         //系統全權限 START
             $permissions = [
+                'sys_settings_list'             => '列表',
+                'sys_settings_create'           => '新增',
+                'sys_settings_update'           => '更新',
+                'sys_settings_delete'           => '刪除',
+
                 'modules_list'                  => '列表',
                 'modules_create'                => '新增',
                 'modules_update'                => '更新',
@@ -667,6 +678,10 @@ class DatabaseSeeder extends Seeder
                 '38' => '1',
                 '39' => '1',
                 '40' => '1',
+                '41' => '1',
+                '42' => '1',
+                '43' => '1',
+                '44' => '1',
             ];
 
             foreach($permission_role as $key1 => $val1){
