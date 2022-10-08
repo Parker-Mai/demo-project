@@ -1,0 +1,133 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\{{model_name_with_s_upper}};
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Validator;
+
+class {{controller_name}} extends Controller
+{
+
+    public function list(Request $request,{{model_name_with_s_upper}} ${{model_name_without_s_lower}}){
+
+        // $this->authorize('list', ${{model_name_without_s_lower}});
+
+        // $datas = {{model_name_with_s_upper}}::latest()->paginate(5);
+
+        return view('backend.modules.{{model_name_with_s_lower}}.list_table',[
+            // 'datas' => $datas,
+            'keyword' => $request->keyword,
+        ]);
+
+    }
+
+    public function create_page({{model_name_with_s_upper}} ${{model_name_without_s_lower}}){
+
+        // $this->authorize('create', ${{model_name_without_s_lower}});
+
+        if(count(old()) > 0){
+            
+            foreach(old() as $field => $v){
+                $out[$field] = $v;
+            }
+
+        }else{
+            
+            $columns = Schema::getColumnListing('lm_{{model_name_with_s_lower}}'); //抓table欄位
+            
+            foreach($columns as $field){
+                $out[$field] = "";
+            }
+
+        }
+
+
+        $out['action'] = 'create';
+
+        return view('backend.modules.{{model_name_with_s_lower}}.edit_form',$out);
+    }
+
+    public function create(Request $request){
+
+        $input_data = $request->all();
+
+        $validator = Validator::make($input_data,[
+            'file_input' => 'required',
+        ], $messages = [
+            'required' => ':attribute 欄位不得為空值',
+        ],[
+            'file_input' => '欄位',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('/backend/{{model_name_with_s_lower}}/create_page')
+                        ->withErrors($validator)
+                        ->withInput($input_data);
+        }
+
+        {{model_name_with_s_upper}}::create($input_data);
+
+        
+        return redirect('/backend/{{model_name_with_s_lower}}');
+    }
+
+    public function update_page({{model_name_with_s_upper}} ${{model_name_without_s_lower}}){
+
+        // $this->authorize('update', ${{model_name_without_s_lower}});
+        
+        if(count(old()) > 0){
+            
+            foreach(old() as $field => $v){
+                $out[$field] = $v;
+            }
+
+        }else{
+            
+            $out = ${{model_name_without_s_lower}};
+            
+        }
+
+        $out['action'] = 'update/'.${{model_name_without_s_lower}}['id'];
+
+        return view('backend.modules.{{model_name_with_s_lower}}.edit_form',$out);
+    }
+
+    public function update(Request $request,{{model_name_with_s_upper}} ${{model_name_without_s_lower}}){
+
+        $input_data = $request->all();
+
+        $validator = Validator::make($input_data,[
+            'file_input' => 'required',
+        ], $messages = [
+            'required' => ':attribute 欄位不得為空值',
+        ],[
+            'file_input' => '欄位',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('/backend/{{model_name_with_s_lower}}/update_page/'.${{model_name_without_s_lower}}['id'])
+                        ->withErrors($validator)
+                        ->withInput($input_data);
+        }
+
+
+        ${{model_name_without_s_lower}}->update($input_data);
+        
+        return redirect('/backend/{{model_name_with_s_lower}}');
+    }
+
+    public function delete({{model_name_with_s_upper}} ${{model_name_without_s_lower}}){
+
+        $this->authorize('delete', ${{model_name_without_s_lower}});
+
+        // if(!${{model_name_without_s_lower}}->trashed()){
+        //    ${{model_name_without_s_lower}}->delete();
+        // }
+
+        ${{model_name_without_s_lower}}->delete();
+        
+        return redirect('/backend/{{model_name_with_s_lower}}');
+    }
+}

@@ -1,0 +1,18 @@
+<?php
+
+use App\Http\Controllers\{{controller_name}};
+
+Route::prefix('/{{model_name_with_s_lower}}')->group(function(){
+
+    Route::get('/',[{{controller_name}}::class , 'list']);
+
+    Route::get('/create_page',[{{controller_name}}::class , 'create_page']);
+    Route::post('/create',[{{controller_name}}::class , 'create']);
+
+    Route::get('/update_page/{{model_name_without_s_lower}}',[{{controller_name}}::class , 'update_page']);
+    Route::put('/update/{{model_name_without_s_lower}}',[{{controller_name}}::class , 'update']);
+    
+    Route::delete('/delete/{{model_name_without_s_lower}}',[{{controller_name}}::class , 'delete']);
+});
+
+?>
