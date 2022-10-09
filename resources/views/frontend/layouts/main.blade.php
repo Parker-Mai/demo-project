@@ -88,7 +88,7 @@
 
 						<li class="dropdown cart-nav dropdown-slide">
 
-							<a href="#!" class="dropdown-toggle cart_list_bar" data-toggle="dropdown" data-hover="dropdown"><i class="tf-ion-android-cart"></i>Cart</a>
+							<a href="#!" class="dropdown-toggle cart_list_bar" data-toggle="dropdown" data-hover="dropdown"><i class="tf-ion-android-cart"></i>購物車</a>
 
 							<div class="dropdown-menu cart-dropdown">
 								
@@ -115,9 +115,9 @@
 
 						<li>
 							@auth('web')
-							<a href="/frontend/member-center/logout"> Logout</a>
+							<a href="/frontend/member-center/logout"> 會員登出</a>
 							@else
-							<a href="/frontend/member-center/login_page"> Login</a>
+							<a href="/frontend/member-center/login_page"> 會員登入</a>
 							@endauth
 						</li>
 
@@ -153,18 +153,6 @@
 
 		<nav class="navbar navigation">
 			<div class="container">
-
-				<div class="navbar-header">
-					<h2 class="menu-title">Main Menu</h2>
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-						aria-expanded="false" aria-controls="navbar">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-
-				</div><!-- / .navbar-header -->
 
 				<!-- Navbar Links -->
 				<div id="navbar" class="navbar-collapse collapse text-center">

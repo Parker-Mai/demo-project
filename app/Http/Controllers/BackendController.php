@@ -10,7 +10,7 @@ class BackendController extends Controller
     public function index(Request $request){
 
         // dd(Auth::user());
-        return view('backend.layouts.main');
+        return view('backend.index');
 
     }
 }

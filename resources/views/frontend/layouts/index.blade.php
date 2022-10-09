@@ -99,15 +99,6 @@
                         <span class="bage">Sale</span>
                         @endif
                         <img class="img-responsive" src="{{asset('storage/'.$data['product_img'].'')}}" alt="product-img" />
-
-                        <div class="preview-meta">
-                            <ul>
-                                <li>
-                                    <a href="#!"><i class="tf-ion-android-cart"></i></a>
-                                </li>
-                            </ul>
-                        </div>
-
                     </div>
                     <div class="product-content">
                         @switch($data['product_main_category'])
