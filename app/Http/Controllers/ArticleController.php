@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Validator;
 class ArticleController extends Controller
 {
 
-    public function list(Request $request){
+    public function list(Request $request,Articles $article){
 
-        // $this->authorize('list', $product);
+        $this->authorize('list', $article);
 
         $datas = Articles::latest()->filter([$request->frame_id])->paginate(5);
 
@@ -38,8 +38,9 @@ class ArticleController extends Controller
         ]);
     }
 
-    public function create_page(Request $request){
+    public function create_page(Request $request,Articles $article){
 
+        $this->authorize('create', $article);
 
         if(!empty($request->frame_id)){
 
@@ -210,6 +211,7 @@ class ArticleController extends Controller
 
     public function update_page(Articles $article){
 
+        $this->authorize('update', $article);
 
         $frame_data = SitemapFrames::find($article->frame_id);
             
@@ -369,6 +371,7 @@ class ArticleController extends Controller
 
     public function delete(Articles $article){
 
+        $this->authorize('delete', $article);
 
         $save_controller = true;
         DB::beginTransaction();

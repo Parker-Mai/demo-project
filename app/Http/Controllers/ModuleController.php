@@ -17,7 +17,7 @@ class ModuleController extends Controller
 
     public function list(Request $request,Modules $module){
 
-        // $this->authorize('list', $product);
+        $this->authorize('list', $module);
 
         // dd($request->keyword);
 
@@ -32,7 +32,7 @@ class ModuleController extends Controller
 
     public function create_page(Modules $module){
 
-        // $this->authorize('create', $product);
+        $this->authorize('create', $module);
 
         if(count(old()) > 0){
             
@@ -149,7 +149,7 @@ class ModuleController extends Controller
 
     public function update_page(Modules $module){
 
-        // $this->authorize('update', $product);
+        $this->authorize('update', $module);
         
         if(count(old()) > 0){
             
@@ -310,9 +310,9 @@ class ModuleController extends Controller
         return redirect('/backend/modules');
     }
 
-    public function delete(Products $product){
+    public function delete(Modules $module){
 
-        $this->authorize('delete', $product);
+        $this->authorize('delete', $module);
 
         if(!$product->trashed()){
             $product->delete();

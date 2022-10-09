@@ -19,9 +19,9 @@ use Illuminate\Support\Facades\Validator;
 class MemberController extends Controller
 {
 
-    public function list(Request $request){
+    public function list(Request $request,Members $member){
 
-        // $this->authorize('list', $product);
+        $this->authorize('list', $member);
 
         $datas = Members::latest()->paginate(5);
 
@@ -31,7 +31,9 @@ class MemberController extends Controller
         ]);
     }
 
-    public function create_page(){
+    public function create_page(Members $member){
+
+        $this->authorize('create', $member);
 
         if(count(old()) > 0){
             
@@ -129,6 +131,8 @@ class MemberController extends Controller
     }
 
     public function update_page(Members $member){
+
+        $this->authorize('update', $member);
 
         if(count(old()) > 0){
             
@@ -238,6 +242,8 @@ class MemberController extends Controller
     }
 
     public function delete(Members $member){
+
+        $this->authorize('delete', $member);
 
         if(!$member->trashed()){
             $member->delete();

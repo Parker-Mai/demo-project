@@ -15,7 +15,9 @@ use Illuminate\Support\Facades\Validator;
 class SitemapFrameController extends Controller
 {
 
-    public function list(){
+    public function list(SitemapFrames $sitemap_frame){
+
+        $this->authorize('list', $sitemap_frame);
 
         $datas = SitemapFrames::where('parent_frame_id','=',0)->get();
 
@@ -24,7 +26,9 @@ class SitemapFrameController extends Controller
         ]);
     }
 
-    public function create_page(){
+    public function create_page(SitemapFrames $sitemap_frame){
+
+        $this->authorize('create', $sitemap_frame);
 
         if(count(old()) > 0){
             
@@ -170,6 +174,8 @@ class SitemapFrameController extends Controller
     }
 
     public function update_page(SitemapFrames $sitemap_frame){
+
+        $this->authorize('update', $sitemap_frame);
 
         if(count(old()) > 0){
             
@@ -350,6 +356,8 @@ class SitemapFrameController extends Controller
     }
 
     public function delete(SitemapFrames $sitemap_frame){
+
+        $this->authorize('delete', $sitemap_frame);
 
         $sitemap_frame->delete();
         

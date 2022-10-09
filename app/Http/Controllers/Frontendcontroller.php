@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banners;
 use App\Models\Modules;
 use App\Models\Articles;
 use App\Models\Products;
@@ -14,8 +15,6 @@ class Frontendcontroller extends Controller
 {
 
     public function page_switch(Request $request){
-
-        
 
         $frame_name = explode("/",$request->path())[1];
 
@@ -65,6 +64,10 @@ class Frontendcontroller extends Controller
                 //抓熱銷單品
                 $popular_products = Products::where('is_popular','=',1)->get();
                 $out_data['datas'] = $popular_products;
+
+                //首頁的 banner
+                $banners = Banners::where('is_show','=',1)->get();
+                $out_data['banners'] = $banners;
             }
             
         }

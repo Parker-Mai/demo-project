@@ -14,7 +14,7 @@
 <!-- beautify ignore:start -->
 <html
   lang="en"
-  class="light-style customizer-hide"
+  class="light-style"
   dir="ltr"
   data-theme="theme-default"
   data-assets-path="../assets/"
@@ -27,7 +27,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>系統管理平台 - 登入</title>
+    <title>系統已關閉</title>
 
     <meta name="description" content="" />
 
@@ -55,7 +55,7 @@
 
     <!-- Page CSS -->
     <!-- Page -->
-    <link rel="stylesheet" href="{{URL::asset('assets/backend/vendor/css/pages/page-auth.css')}}" />
+    <link rel="stylesheet" href="{{URL::asset('assets/backend/vendor/css/pages/page-misc.css')}}" />
     <!-- Helpers -->
     <script src="{{URL::asset('assets/backend/vendor/js/helpers.js')}}"></script>
 
@@ -67,74 +67,26 @@
   </head>
 
   <body>
-
     <!-- Content -->
 
-    <div class="container-xxl">
-      <div class="authentication-wrapper authentication-basic container-p-y">
-
-        @if(session()->has('system_message'))
-        <div class="bs-toast toast toast-placement-ex m-2 fade bg-info top-0 start-50 translate-middle-x show" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
-          <div class="toast-header">
-            <i class="bx bx-bell me-2"></i>
-            <div class="me-auto fw-semibold">系統通知</div>
-            {{-- <small>11 mins ago</small> --}}
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-          </div>
-          <div class="toast-body">{{session('system_message')}}</div>
-        </div>
-        @endif
-
-        <div class="authentication-inner">
-          <!-- Register -->
-          <div class="card">
-            <div class="card-body">
-
-              <!-- Logo -->
-              <div class="app-brand justify-content-center">
-                <a href="index.html" class="app-brand-link gap-2">
-                  <span class="app-brand-logo demo">
-                    <img src="{{asset('storage/'.$sys_logo)}}">
-                  </span>
-                </a>
-              </div>
-              <!-- /Logo -->
-
-              <h4 class="mb-2 text-center">{{$sys_name}} - 系統管理平台</h4>
-              <p class="mb-4 text-center">請輸入您的系統帳號及密碼。</p>
-
-              <form class="mb-3" action="/backend/login" method="POST">
-                @csrf
-                <div class="mb-3">
-                  <label for="login_account" class="form-label">系統帳號</label>
-                  <input type="text" class="form-control" name="login_account" id="login_account" autofocus />
-                </div>
-
-                <div class="mb-3 form-password-toggle">
-
-                  <div class="d-flex justify-content-between">
-                    <label class="form-label" for="password">系統密碼</label>
-                  </div>
-
-                  <div class="input-group input-group-merge">
-                    <input type="password" class="form-control" name="login_password" id="login_password"/>
-                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-                  </div>
-                </div>
-
-                <div class="mb-3">
-                  <button class="btn btn-primary d-grid w-100" type="submit">登入</button>
-                </div>
-              </form>
-
-            </div>
-          </div>
-          <!-- /Register -->
+    <!--Under Maintenance -->
+    <div class="container-xxl container-p-y">
+      <div class="misc-wrapper">
+        <h2 class="mb-2 mx-2">系統已下架關閉! 請連絡相關人員</h2>
+        <p class="mb-4 mx-2">The system has been shut down! Please contact the relevant personnel</p>
+        <div class="mt-4">
+          <img
+            src="{{URL::asset('assets/backend/img/illustrations/girl-doing-yoga-light.png')}}"
+            alt="girl-doing-yoga-light"
+            width="500"
+            class="img-fluid"
+            data-app-dark-img="illustrations/girl-doing-yoga-dark.png"
+            data-app-light-img="illustrations/girl-doing-yoga-light.png"
+          />
         </div>
       </div>
     </div>
-
-    <!-- / Content -->
+    <!-- /Under Maintenance -->
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->

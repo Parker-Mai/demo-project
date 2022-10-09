@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Members;
 use App\Models\Accounts;
+use App\Models\SysSettings;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -17,8 +18,33 @@ class LoginController extends Controller
         return Auth::guard('admin');
     }
 
-    public function login_page(){
-        return view('backend.layouts.login');
+    public function login_page(Request $request){
+
+
+       
+        $sys_data = SysSettings::first()->toArray();
+
+        //判斷系統是否下架關閉
+        if(!empty($sys_data['sys_end_date'])){
+           
+            if(strtotime(date('Y/m/d')) > strtotime($sys_data['sys_end_date'])){
+                return view('backend.layouts.close_error');
+            }
+
+        }
+
+        //判斷是否有在不允許IP內
+        if(!empty($sys_data['sys_deny_ip'])){
+            
+            $sys_deny_ip = explode(",",$sys_data['sys_deny_ip']);
+
+            if(in_array($request->ip(),$sys_deny_ip)){
+                return view('backend.layouts.general_error');
+            }
+
+        }
+
+        return view('backend.layouts.login',$sys_data);
     }
 
     public function login(Request $request){

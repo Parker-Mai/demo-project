@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Modules;
+use App\Models\SysSettings;
 use Illuminate\Support\Str;
 use App\Models\ModuleCategorys;
 use Illuminate\Support\Facades\URL;
@@ -71,10 +72,15 @@ class AppServiceProvider extends ServiceProvider
         if(empty($active_category)) $active_category = "";
         if(empty($active_module)) $active_module = "";
 
+
+        //logo
+        $sys_data = SysSettings::first();
+
         View::share([
             'sidebar'           => $out_sidebar,
             'active_category'   => $active_category,
             'active_module'     => $active_module,
+            'sys_logo'          => $sys_data['sys_logo']
         ]);
     }
 }

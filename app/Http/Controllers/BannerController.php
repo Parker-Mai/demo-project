@@ -12,12 +12,12 @@ class BannerController extends Controller
 
     public function list(Request $request,Banners $banner){
 
-        // $this->authorize('list', $banner);
+        $this->authorize('list', $banner);
 
-        // $datas = Banners::latest()->paginate(5);
+        $datas = Banners::latest()->paginate(15);
 
         return view('backend.modules.banners.list_table',[
-            // 'datas' => $datas,
+            'datas' => $datas,
             'keyword' => $request->keyword,
         ]);
 
@@ -25,7 +25,7 @@ class BannerController extends Controller
 
     public function create_page(Banners $banner){
 
-        // $this->authorize('create', $banner);
+        $this->authorize('create', $banner);
 
         if(count(old()) > 0){
             
@@ -54,11 +54,13 @@ class BannerController extends Controller
         $input_data = $request->all();
 
         $validator = Validator::make($input_data,[
-            'file_input' => 'required',
+            'title' => 'required',
+            'banner_img' => 'required',
         ], $messages = [
             'required' => ':attribute 欄位不得為空值',
         ],[
-            'file_input' => '欄位',
+            'title' => '標題',
+            'banner_img' => 'Banner'
         ]);
 
         if ($validator->fails()) {
@@ -67,8 +69,8 @@ class BannerController extends Controller
                         ->withInput($input_data);
         }
 
-        if($request->hasfile('product_img')){
-            $input_data['product_img'] = $request->file('product_img')->store('product_img','public');
+        if($request->hasfile('banner_img')){
+            $input_data['banner_img'] = $request->file('banner_img')->store('banner_img','public');
         }
 
         Banners::create($input_data);
@@ -79,7 +81,7 @@ class BannerController extends Controller
 
     public function update_page(Banners $banner){
 
-        // $this->authorize('update', $banner);
+        $this->authorize('update', $banner);
         
         if(count(old()) > 0){
             
@@ -103,17 +105,21 @@ class BannerController extends Controller
         $input_data = $request->all();
 
         $validator = Validator::make($input_data,[
-            'file_input' => 'required',
+            'title' => 'required',
         ], $messages = [
             'required' => ':attribute 欄位不得為空值',
         ],[
-            'file_input' => '欄位',
+            'title' => '標題',
         ]);
 
         if ($validator->fails()) {
             return redirect('/backend/banners/update_page/'.$banner['id'])
                         ->withErrors($validator)
                         ->withInput($input_data);
+        }
+
+        if($request->hasfile('banner_img')){
+            $input_data['banner_img'] = $request->file('banner_img')->store('banner_img','public');
         }
 
 
@@ -126,12 +132,33 @@ class BannerController extends Controller
 
         $this->authorize('delete', $banner);
 
-        // if(!$banner->trashed()){
-        //    $banner->delete();
-        // }
+        if(!$banner->trashed()){
+           $banner->delete();
+        }
 
         $banner->delete();
         
         return redirect('/backend/banners');
+    }
+
+    public function is_show(Request $request){
+        
+        $data = Banners::find($request->id);
+
+        if($data->is_show == 0){
+            $data->is_show = 1;    
+        }else{
+            $data->is_show = 0;
+        }
+
+        $chk = $data->save();
+
+        $out = ['status' => 'NO']; 
+        if($chk){
+           $out = ['status' => 'YES','val' => $data->is_show]; 
+        }
+
+        return json_encode($out,JSON_UNESCAPED_UNICODE);
+
     }
 }

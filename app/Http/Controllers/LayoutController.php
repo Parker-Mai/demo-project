@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Validator;
 class LayoutController extends Controller
 {
 
-    public function list(Request $request){
+    public function list(Request $request,Layouts $layout){
 
-        // $this->authorize('list', $product);
+        $this->authorize('list', $layout);
 
         $datas = Layouts::latest()->paginate(15);
 
@@ -22,7 +22,9 @@ class LayoutController extends Controller
         ]);
     }
 
-    public function create_page(){
+    public function create_page(Layouts $layout){
+
+        $this->authorize('create', $layout);
 
         if(count(old()) > 0){
             
@@ -73,6 +75,8 @@ class LayoutController extends Controller
 
     public function update_page(Layouts $layout){
 
+        $this->authorize('update', $layout);
+
         if(count(old()) > 0){
             
             foreach(old() as $field => $v){
@@ -119,6 +123,8 @@ class LayoutController extends Controller
     }
 
     public function delete(Layouts $layout){
+
+        $this->authorize('delete', $layout);
 
         // if(!$layout->trashed()){
         //     $layout->delete();

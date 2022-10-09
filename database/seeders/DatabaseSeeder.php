@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use App\Models\Areas;
 use App\Models\Roles;
 use App\Models\Orders;
+use App\Models\Banners;
 use App\Models\Layouts;
 use App\Models\Members;
 use App\Models\Modules;
@@ -425,7 +426,7 @@ class DatabaseSeeder extends Seeder
         //系統資訊設定 START
             SysSettings::factory()->create([
                 'sys_name'                  => 'ChoChoco',
-                'sys_logo'                  => '',
+                'sys_logo'                  => 'sys_logo/XiAxcWaKCs06RtLW1IToEtSXhSpWgQSlLyL3477i.webp',
                 'sys_start_date'            => '',
                 'sys_end_date'              => '',
                 'sys_deny_ip'               => '',
@@ -508,6 +509,12 @@ class DatabaseSeeder extends Seeder
                     'module_controller_name'    => 'App\Http\Controllers\OrderController',
                     'category_id'               => 3,
                 ],
+                'banners' => [
+                    'module_display_name'       => 'Banner管理',
+                    'module_model_name'         => 'App\Models\Banners',
+                    'module_controller_name'    => 'App\Http\Controllers\BannerController',
+                    'category_id'               => 2,
+                ],
             ];
 
             foreach($modules as $key2 => $val2){
@@ -582,9 +589,7 @@ class DatabaseSeeder extends Seeder
         //系統全權限 START
             $permissions = [
                 'sys_settings_list'             => '列表',
-                'sys_settings_create'           => '新增',
                 'sys_settings_update'           => '更新',
-                'sys_settings_delete'           => '刪除',
 
                 'modules_list'                  => '列表',
                 'modules_create'                => '新增',
@@ -632,9 +637,13 @@ class DatabaseSeeder extends Seeder
                 'members_delete'                => '刪除',
 
                 'orders_list'                   => '列表',
-                'orders_create'                 => '新增',
                 'orders_update'                 => '更新',
                 'orders_delete'                 => '刪除',
+
+                'banners_list'                  => '列表',
+                'banners_create'                => '新增',
+                'banners_update'                => '更新',
+                'banners_delete'                => '刪除',
             ];
 
             $count = 0;
@@ -701,6 +710,7 @@ class DatabaseSeeder extends Seeder
                 '42' => '1',
                 '43' => '1',
                 '44' => '1',
+                '45' => '1',
             ];
 
             foreach($permission_role as $key1 => $val1){
@@ -1434,7 +1444,7 @@ class DatabaseSeeder extends Seeder
                     'product_content' => '巧克力脆片生乳酪捲，鍛帶，提袋',
                     'product_description' => '法國巧克力64％ X 香濃乳酪 X 日本鮮奶油 日本戚風蛋糕溫柔包覆著 完美比例調和的法國乳酪 以及日本清爽鮮奶油內餡 中間再撒上巧克力脆片 濃郁細緻的口感中藏有脆脆地小驚喜',
                     'product_specification' => '產品成分：法國巧克力64％、法國乳酪、日本鮮奶油、認證雞蛋、日本麵粉 (蛋奶素) 保存方式：需冷藏，賞味期限4天(冷凍保存，獨特冰淇淋口感)',
-                    'is_popular' => 1,
+                    'is_popular' => 0,
                 ],
                 '25' => [
                     'user_id' => 1,
@@ -1551,6 +1561,39 @@ class DatabaseSeeder extends Seeder
             }
         //訂單管理 END
 
+        //banner管理 START
+
+            $banners = [
+                '0' => [
+                    'title'         => 'banner 1',
+                    'link'          => '',
+                    'banner_img'    => 'banner_img/CtMR4skaQZ5nP7V6Jn1LNwG0TgeGmcUui82NMPZq.jpg',
+                    'is_show'       => 1
+                ],
+                '1' => [
+                    'title'         => 'banner 2',
+                    'link'          => '',
+                    'banner_img'    => 'banner_img/bips6uS6IG6zYRoRflYr8OPAaYWWBycrCBdMUyv8.webp',
+                    'is_show'       => 1
+                ],
+                '2' => [
+                    'title'         => 'banner 3',
+                    'link'          => '',
+                    'banner_img'    => 'banner_img/y4TlBQgC3J563xzCOqsuTyw3Qo24WfMy3JzGBYGG.jpg',
+                    'is_show'       => 1
+                ],
+                
+            ];
+
+            foreach($banners as $banner_key => $banner_val){
+                Banners::factory()->create([
+                    'title'         => $banner_val['title'],
+                    'link'          => $banner_val['link'],
+                    'banner_img'    => $banner_val['banner_img'],
+                    'is_show'       => $banner_val['is_show'],
+                ]);
+            }
+        //banner管理 END
     }
         
 }

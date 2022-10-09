@@ -16,7 +16,7 @@
           <span class="input-group-text"><i class="bx bx-search"></i></span>
             <input type="text" class="form-control" name="keyword" value="{{$keyword}}">
             <button class="btn btn-outline-primary" type="submit">搜尋</button>
-            @if(!empty($keyword) || !empty($tags))
+            @if(!empty($keyword))
               <button class="btn btn-outline-primary" type="button" onclick='location.href="/backend/banners"'>取消搜尋</button>
             @endif
         </div>
@@ -34,28 +34,38 @@
 
       <thead>
         <tr>
-          <th>欄位</th>
-          <th></th>
+          <th>標題</th>
+          <th>連結</th>
+          <th>上下架</th>
         </tr>
       </thead>
 
       <tbody class="table-border-bottom-0">
-        {{-- @foreach($datas as $data) --}}
+        @foreach($datas as $data)
 
         <tr>
-          <td></td>
-          <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong></strong></td>
+          <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{$data['title']}}</strong></td>
+          <td>{{$data['link']}}</td>
+          <td>
+            <div class="form-check form-switch mb-2">
+              <input class="form-check-input switch_controller" type="checkbox" data-type="show" data-id="{{$data['id']}}"
+                @if($data['is_show'])
+                  checked
+                @endif
+              >
+            </div>
+          </td>
           <td>
             <div class="dropdown">
               <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                 <i class="bx bx-dots-vertical-rounded"></i>
               </button>
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="/backend/banners/update_page/"><i class="bx bx-edit-alt me-1"></i> 編輯</a>
-                <form action="/backend/banners/delete/" method="POST" class="del_form" data-id="">
+                <a class="dropdown-item" href="/backend/banners/update_page/{{$data['id']}}"><i class="bx bx-edit-alt me-1"></i> 編輯</a>
+                <form action="/backend/banners/delete/" method="POST" class="del_form" data-id="{{$data['id']}}">
                   @csrf
                   @method('DELETE')
-                  <button type="button" class="dropdown-item del_btn" data-id=""><i class="bx bx-trash me-1"></i> 刪除</button>
+                  <button type="button" class="dropdown-item del_btn" data-id="{{$data['id']}}"><i class="bx bx-trash me-1"></i> 刪除</button>
                 </form>
               </div>
             </div>
@@ -63,7 +73,7 @@
 
         </tr>
         
-        {{-- @endforeach --}}
+        @endforeach
 
       </tbody>
 
@@ -85,6 +95,32 @@
     }else{
       return false;
     }
+
+  })
+
+  $('.switch_controller').click(function(){
+    
+    $dataid = $(this).data('id');
+
+    $.ajax({
+      url: '/backend/banners/is_show',
+      type: 'post',
+      dataType: 'json',
+      data:{
+        '_token': '{{ csrf_token() }}',
+        'id': $dataid
+      },
+      success: function(data){
+        console.log(data);
+
+        if(data.status != 'YES'){
+          alert('系統錯誤!');
+        }
+      },
+      error: function(a){
+        console.log(a);
+      }
+    })
 
   })
   

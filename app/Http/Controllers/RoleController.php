@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Validator;
 class RoleController extends Controller
 {
 
-    public function list(Request $request){
+    public function list(Request $request,Roles $role){
+
+        $this->authorize('list', $role);
 
         $datas = Roles::latest()->paginate(5);
 
@@ -24,7 +26,9 @@ class RoleController extends Controller
         ]);
     }
 
-    public function create_page(){
+    public function create_page(Roles $role){
+
+        $this->authorize('create', $role);
 
         if(count(old()) > 0){
             
@@ -144,6 +148,8 @@ class RoleController extends Controller
     }
 
     public function update_page(Roles $role){
+
+        $this->authorize('update', $role);
 
         if(count(old()) > 0){
             
@@ -304,6 +310,8 @@ class RoleController extends Controller
     }
 
     public function delete(Roles $role){
+
+        $this->authorize('delete', $role);
 
         PermissionRoles::where('role_id','=',$role->id)->delete();
         $role->delete();

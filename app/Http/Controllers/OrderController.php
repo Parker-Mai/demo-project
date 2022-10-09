@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Validator;
 class OrderController extends Controller
 {
 
-    public function list(Request $request){
+    public function list(Request $request,Orders $order){
 
-        // $this->authorize('list', $product);
+        $this->authorize('list', $order);
 
         $datas = Orders::latest()->paginate(15);
 
@@ -28,7 +28,9 @@ class OrderController extends Controller
         ]);
     }
 
-    public function create_page(){
+    public function create_page(Orders $order){
+
+        $this->authorize('create', $order);
 
         if(count(old()) > 0){
             
@@ -75,6 +77,8 @@ class OrderController extends Controller
 
     public function update_page(Orders $order){
 
+        $this->authorize('update', $order);
+
         if(count(old()) > 0){
             
             foreach(old() as $field => $v){
@@ -118,6 +122,8 @@ class OrderController extends Controller
     }
 
     public function delete(Orders $order){
+
+        $this->authorize('delete', $order);
 
         if(!$order->trashed()){
             $order->delete();
@@ -325,14 +331,16 @@ class OrderController extends Controller
 
         $address = MemberAddresses::find($data['order_address']);
 
+        $sys_data = SysSettings::first();
+
         $url = "https://logistics-stage.ecpay.com.tw/Express/Create";
 
 
         if($data['payment_method'] == 1){ // 711 C2C
 
-            $hashkey = 'XBERn1YOvpM9nfZc';
-            $hashiv = 'h1ONHk4P4yqbl5LK';
-            $merchant_id = '2000933';
+            $hashkey = $sys_data['sys_api_ctc_hashkey'];
+            $hashiv = $sys_data['sys_api_ctc_hashiv'];
+            $merchant_id = $sys_data['sys_api_ctc_id'];
             $type = 'CVS';
             $sub_type = 'UNIMARTC2C';
 
@@ -370,9 +378,9 @@ class OrderController extends Controller
 
         }else{ //黑貓宅配
 
-            $hashkey = '5294y06JbISpM5x9';
-            $hashiv = 'v77hoKGq4kWxNNIS';
-            $merchant_id = '2000132';
+            $hashkey = $sys_data['sys_api_hashkey'];
+            $hashiv = $sys_data['sys_api_hashiv'];
+            $merchant_id = $sys_data['sys_api_id'];
             $type = 'HOME';
             $sub_type = 'TCAT';
 

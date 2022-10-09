@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"> /</span></h4>
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">頁面設定 /</span> Banner管理</h4>
 
 <div class="row">
   
@@ -23,14 +23,40 @@
           @endif
 
           <div class="row mb-3">
-            <label class="col-sm-2 col-form-label" for="file_input">欄位</label>
+            <label class="col-sm-2 col-form-label" for="title">標題</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" name="file_input"  id="file_input" value="" placeholder="欄位">
+              <input type="text" class="form-control" name="title"  id="title" value="{{$title}}" placeholder="標題">
             </div>
-            @error('file_input')
+            @error('title')
             <small style="color:red;">{{$message}}</small>
             @enderror
           </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="link">連結</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="link"  id="link" value="{{$link}}" placeholder="連結">
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="banner_img">Banner 上傳</label>
+            <div class="col-sm-10">
+              <input type="file" class="form-control" name="banner_img"  id="banner_img">
+            </div>
+            @error('banner_img')
+            <small style="color:red;">{{$message}}</small>
+            @enderror
+          </div>
+
+          @if(!empty($banner_img))
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+              <img src="{{asset('storage/'.$banner_img)}}" style="max-width:1000px;max-height:1000px">
+            </div>
+          </div>
+          @endif
 
           <div class="row justify-content-end">
             <div class="col-sm-10">

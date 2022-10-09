@@ -11,7 +11,9 @@ class SysSettingController extends Controller
 {
     
 
-    public function edit_page(){
+    public function edit_page(SysSettings $sys_setting){
+
+        $this->authorize('list', $sys_setting);
 
         $larinfo = Larinfo::getInfo();
 
@@ -38,8 +40,10 @@ class SysSettingController extends Controller
         return view('backend.modules.sys_settings.edit_form',$sys_data);
     }
 
-    public function update(Request $request){
+    public function update(Request $request,SysSettings $sys_setting){
         
+        $this->authorize('update', $sys_setting);
+
         $input_data = $request->all();
 
         $validator = Validator::make($input_data,[

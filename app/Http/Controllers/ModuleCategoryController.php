@@ -12,7 +12,7 @@ class ModuleCategoryController extends Controller
 
     public function list(Request $request,ModuleCategorys $module_category){
 
-        // $this->authorize('list', $product);
+        $this->authorize('list', $module_category);
 
         // dd($request->keyword);
 
@@ -27,7 +27,7 @@ class ModuleCategoryController extends Controller
 
     public function create_page(ModuleCategorys $module_category){
 
-        // $this->authorize('create', $product);
+        $this->authorize('create', $module_category);
 
         if(count(old()) > 0){
             
@@ -74,7 +74,7 @@ class ModuleCategoryController extends Controller
 
     public function update_page(ModuleCategorys $module_category){
 
-        // $this->authorize('update', $product);
+        $this->authorize('update', $module_category);
         
         if(count(old()) > 0){
             
@@ -118,7 +118,7 @@ class ModuleCategoryController extends Controller
 
     public function delete(ModuleCategorys $module_category){
 
-        // $this->authorize('delete', $product);
+        $this->authorize('delete', $module_category);
 
         $module_category->delete();
         
