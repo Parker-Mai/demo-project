@@ -80,7 +80,8 @@ class AppServiceProvider extends ServiceProvider
             'sidebar'           => $out_sidebar,
             'active_category'   => $active_category,
             'active_module'     => $active_module,
-            'sys_logo'          => $sys_data['sys_logo']
+            'sys_logo'          => $sys_data['sys_logo'],
+            'sys_name'          => $sys_data['sys_name'],
         ]);
     }
 }

@@ -161,8 +161,6 @@ class ProductController extends Controller
         }
 
         $input_data['product_category'] = "@#".implode("@#",$input_data['product_category'])."@#";
-
-        $input_data['product_specification'] = nl2br($input_data['product_specification']);
         
         if($request->hasfile('product_img')){
             $input_data['product_img'] = $request->file('product_img')->store('product_img','public');

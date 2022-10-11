@@ -27,7 +27,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>後台管理介面-Dashboard</title>
+    <title>{{$sys_name}} - 系統平台</title>
 
     <meta name="description" content="" />
 

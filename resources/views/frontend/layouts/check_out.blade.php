@@ -42,7 +42,7 @@
             </div>
 
             <div class="form-group paymethod_711">
-                <label for="user_address">收貨門市店號131386</label>
+                <label for="user_address">收貨門市店號 <span style="color:red">*因測試環境 7-11取貨一定要用 131386</span></label>
                 <input class="form-control" type="text" name="local_number" id="local_number" >
                 <button type="button" class="btn btn-default search_local">搜尋門市</button>
                 <div>

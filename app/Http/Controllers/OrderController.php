@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Orders;
 use App\Models\Members;
 use App\Models\Products;
+use App\Models\SysSettings;
 use App\Models\ProductCarts;
 use Illuminate\Http\Request;
 use App\Models\MemberAddresses;

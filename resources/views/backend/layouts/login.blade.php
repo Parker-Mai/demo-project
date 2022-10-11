@@ -27,7 +27,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>系統管理平台 - 登入</title>
+    <title>{{$sys_name}} - 系統平台</title>
 
     <meta name="description" content="" />
 
@@ -100,7 +100,7 @@
               </div>
               <!-- /Logo -->
 
-              <h4 class="mb-2 text-center">{{$sys_name}} - 系統管理平台</h4>
+              <h4 class="mb-2 text-center">{{$sys_name}} - 系統平台</h4>
               <p class="mb-4 text-center">請輸入您的系統帳號及密碼。</p>
 
               <form class="mb-3" action="/backend/login" method="POST">

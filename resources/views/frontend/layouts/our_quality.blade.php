@@ -35,7 +35,7 @@
 					<h2 class="post-title"><a href="blog-single.html">{{$data['db_our_quality_title']}}</a></h2>
 
 					<div class="post-content" >
-						<p>{{$data['db_our_quality_content']}}</p>
+						<p>{!! nl2br($data['db_our_quality_content']) !!}</p>
 					</div>
 
 				</div>

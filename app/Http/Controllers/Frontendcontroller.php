@@ -6,6 +6,7 @@ use App\Models\Banners;
 use App\Models\Modules;
 use App\Models\Articles;
 use App\Models\Products;
+use App\Models\SysSettings;
 use Illuminate\Http\Request;
 use App\Models\SitemapFrames;
 use App\Models\FrameFieldsValue;
@@ -72,6 +73,8 @@ class Frontendcontroller extends Controller
             
         }
 
+        
+        $web_name = SysSettings::first()->toArray();
         // dd($out_data);
 
         if(empty($view_root)){
@@ -79,7 +82,7 @@ class Frontendcontroller extends Controller
             return redirect('/frontend/index');
         }
 
-        return view($view_root,['out_data' => $out_data]);
+        return view($view_root,['out_data' => $out_data,'web_name' => $web_name['sys_name']]);
     }
 
     public function module_function($frame_data,$request,$view_root){

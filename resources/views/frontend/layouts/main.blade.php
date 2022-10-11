@@ -14,7 +14,7 @@
 	<!-- Basic Page Needs
   ================================================== -->
 	<meta charset="utf-8">
-	<title>ChoChoco巧克力專賣</title>
+	<title>{{$web_name}}</title>
 
 	<!-- Mobile Specific Metas
   ================================================== -->

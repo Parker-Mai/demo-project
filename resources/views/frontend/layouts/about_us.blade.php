@@ -26,7 +26,7 @@
 			</div>
 			<div class="col-md-6">
 				<h2 class="mt-40">關於我們</h2>
-				<p>{{$out_data[0]['db_about_us_content']}}</p>
+				<p>{!! nl2br($out_data[0]['db_about_us_content']) !!}</p>
 			</div>
 		</div>
 	</div>

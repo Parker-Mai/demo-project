@@ -45,7 +45,7 @@
 						</div>
 						
 						<!-- thumb -->
-						<ol class='carousel-indicators mCustomScrollbar meartlab'>
+						{{-- <ol class='carousel-indicators mCustomScrollbar meartlab'>
 							<li data-target='#carousel-custom' data-slide-to='0' class='active'>
 								<img src='images/shop/single-products/product-1.jpg' alt='' />
 							</li>
@@ -67,7 +67,7 @@
 							<li data-target='#carousel-custom' data-slide-to='6'>
 								<img src='images/shop/single-products/product-7.jpg' alt='' />
 							</li>
-						</ol>
+						</ol> --}}
 
 					</div>
 				</div>
@@ -82,7 +82,7 @@
 					<p class="product-price">${{$out_data['datas']->product_price}}</p>
 					
 					<p class="product-description mt-20">
-						{{$out_data['datas']->product_description}}
+						{!! nl2br($out_data['datas']->product_description) !!}
 					</p>
 
 					<div class="product-quantity">
@@ -134,13 +134,13 @@
 
 						<div id="product_specification" class="tab-pane fade active in">
 							
-							<p>{{$out_data['datas']->product_specification}}</p>
+							<p>{!! nl2br($out_data['datas']->product_specification) !!}</p>
 							
 						</div>
 
 						<div id="product_content" class="tab-pane fade">
 
-							<p>{{$out_data['datas']->product_content}}</p>
+							<p>{!! nl2br($out_data['datas']->product_content) !!}</p>
 
 						</div>
 
