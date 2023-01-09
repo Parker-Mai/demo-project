@@ -50,7 +50,7 @@
               <button type="submit" class="btn btn-main text-center">加入會員</button>
             </div>
           </form>
-          <p class="mt-20">已經是會員了 ?<a href="/member-center/login_page"> 登入</a></p>
+          <p class="mt-20">已經是會員了 ?<a href="/frontend/member-center/login_page"> 登入</a></p>
         </div>
       </div>
     </div>

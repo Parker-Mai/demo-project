@@ -30,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
         //更改自定義分類樣板
         Paginator::defaultView('vendor.pagination.backend-pagebar');
 

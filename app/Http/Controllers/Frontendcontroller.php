@@ -75,8 +75,7 @@ class Frontendcontroller extends Controller
 
         
         $web_name = SysSettings::first()->toArray();
-        // dd($out_data);
-
+        
         if(empty($view_root)){
             die("沒有設定佈局");
             return redirect('/frontend/index');

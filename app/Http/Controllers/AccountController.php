@@ -37,7 +37,7 @@ class AccountController extends Controller
         }else{
             
             $columns = Schema::getColumnListing('lm_accounts'); //抓table欄位
-            
+ 
             foreach($columns as $field){
                 $out[$field] = "";
             }
@@ -80,7 +80,6 @@ class AccountController extends Controller
                         ->withErrors($validator)
                         ->withInput($input_data);
         }
-
 
         if($request->hasfile('account_photo')){
             $input_data['account_photo'] = $request->file('account_photo')->store('account_photo','public');

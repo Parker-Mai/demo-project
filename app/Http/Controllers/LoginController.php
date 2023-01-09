@@ -79,9 +79,8 @@ class LoginController extends Controller
     public function front_login_page(){
 
         $web_name = SysSettings::first()->toArray();
-        $out_data['web_name'] = $web_name['sys_name'];
 
-        return view('frontend.layouts.login_page',['out_data' => $out_data]);
+        return view('frontend.layouts.login_page',['web_name' => $web_name['sys_name']]);
     }
 
     public function front_login(Request $request){
@@ -115,7 +114,10 @@ class LoginController extends Controller
 
 
     public function signin_page(){
-        return view('frontend.layouts.signin_page');
+
+        $web_name = SysSettings::first()->toArray();
+
+        return view('frontend.layouts.signin_page',['web_name' => $web_name['sys_name']]);
     }
 
     public function signin(Request $request){
