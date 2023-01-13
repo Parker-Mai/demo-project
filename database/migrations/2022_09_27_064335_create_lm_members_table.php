@@ -15,14 +15,18 @@ return new class extends Migration
     {
         Schema::create('lm_members', function (Blueprint $table) {
             $table->id();
-            $table->string('member_name')->unique();
-            $table->string('member_password');
+            $table->tinyInteger('login_type')->default("0");
+            $table->string('api_id')->nullable();
+            $table->string('member_name')->unique()->nullable();
+            $table->string('member_password')->nullable();
             $table->string('member_email')->unique();
             $table->string('member_realname');
             $table->tinyInteger('member_gender')->nullable();
-            $table->string('member_phone');
+            $table->string('member_phone')->nullable();
             $table->string('member_birth')->nullable();
             $table->tinyInteger('is_disabled')->default("0");
+            $table->string('google_avatar')->nullable();
+            $table->string('google_token')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

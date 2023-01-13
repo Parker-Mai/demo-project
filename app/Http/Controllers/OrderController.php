@@ -336,6 +336,7 @@ class OrderController extends Controller
 
         $url = "https://logistics-stage.ecpay.com.tw/Express/Create";
 
+        // print_a($data);die();
 
         if($data['payment_method'] == 1){ // 711 C2C
 

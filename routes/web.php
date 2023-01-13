@@ -8,6 +8,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BackendController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Frontendcontroller;
+use App\Http\Controllers\SocialiteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +59,10 @@ Route::prefix('/frontend')->group(function(){
             Route::post('/login',[LoginController::class , 'front_login']);
             Route::get('/signin_page',[LoginController::class , 'signin_page']);
             Route::post('/signin',[LoginController::class , 'signin']);
+
+            Route::get('/google/auth', [SocialiteController::class, 'redirectToProvider']);
+            Route::get('/google/auth/callback', [SocialiteController::class, 'handleProviderCallback']);
+
         });
 
         Route::middleware('frontend.auth')->group(function(){

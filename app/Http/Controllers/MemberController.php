@@ -98,27 +98,31 @@ class MemberController extends Controller
 
         if(!$save_member) $save_controller = false;
         
-        for($i=0;$i<count($input_data['member_address_counter']);$i++){
-            
-            if(empty($input_data['member_addresses']['zipcode'][$i]) 
-            || empty($input_data['member_addresses']['city'][$i]) 
-            || empty($input_data['member_addresses']['area'][$i]) 
-            || empty($input_data['member_addresses']['address'][$i])
-            || empty($input_data['member_addresses']['addressee'][$i])){
+        if(isset($input_data['member_address_counter'])){
 
-                continue;
+            for($i=0;$i<count($input_data['member_address_counter']);$i++){
+                
+                if(empty($input_data['member_addresses']['zipcode'][$i]) 
+                || empty($input_data['member_addresses']['city'][$i]) 
+                || empty($input_data['member_addresses']['area'][$i]) 
+                || empty($input_data['member_addresses']['address'][$i])
+                || empty($input_data['member_addresses']['addressee'][$i])){
+
+                    continue;
+                }
+
+                $save_member_address = MemberAddresses::create([
+                    'member_id'     => $save_member->id,
+                    'zipcode'       => $input_data['member_addresses']['zipcode'][$i],
+                    'city'          => $input_data['member_addresses']['city'][$i],
+                    'area'          => $input_data['member_addresses']['area'][$i],
+                    'address'       => $input_data['member_addresses']['address'][$i],
+                    'addressee'     => $input_data['member_addresses']['addressee'][$i],
+                ]);
+                
+                if(!$save_member_address) $save_controller = false;
             }
 
-            $save_member_address = MemberAddresses::create([
-                'member_id'     => $save_member->id,
-                'zipcode'       => $input_data['member_addresses']['zipcode'][$i],
-                'city'          => $input_data['member_addresses']['city'][$i],
-                'area'          => $input_data['member_addresses']['area'][$i],
-                'address'       => $input_data['member_addresses']['address'][$i],
-                'addressee'     => $input_data['member_addresses']['addressee'][$i],
-            ]);
-            
-            if(!$save_member_address) $save_controller = false;
         }
 
         if(!$save_controller){
@@ -209,27 +213,31 @@ class MemberController extends Controller
         $delete_member_addresses = MemberAddresses::where('member_id','=',$member['id'])->delete();
         if(!$delete_member_addresses) $save_controller = false;
 
-        for($i=0;$i<count($input_data['member_address_counter']);$i++){
-            
-            if(empty($input_data['member_addresses']['zipcode'][$i]) 
-            || empty($input_data['member_addresses']['city'][$i]) 
-            || empty($input_data['member_addresses']['area'][$i]) 
-            || empty($input_data['member_addresses']['address'][$i])
-            || empty($input_data['member_addresses']['addressee'][$i])){
+        if(isset($input_data['member_address_counter'])){
 
-                continue;
+            for($i=0;$i<count($input_data['member_address_counter']);$i++){
+                
+                if(empty($input_data['member_addresses']['zipcode'][$i]) 
+                || empty($input_data['member_addresses']['city'][$i]) 
+                || empty($input_data['member_addresses']['area'][$i]) 
+                || empty($input_data['member_addresses']['address'][$i])
+                || empty($input_data['member_addresses']['addressee'][$i])){
+
+                    continue;
+                }
+
+                $save_member_address = MemberAddresses::create([
+                    'member_id'     => $member['id'],
+                    'zipcode'       => $input_data['member_addresses']['zipcode'][$i],
+                    'city'          => $input_data['member_addresses']['city'][$i],
+                    'area'          => $input_data['member_addresses']['area'][$i],
+                    'address'       => $input_data['member_addresses']['address'][$i],
+                    'addressee'     => $input_data['member_addresses']['addressee'][$i],
+                ]);
+                
+                if(!$save_member_address) $save_controller = false;
             }
 
-            $save_member_address = MemberAddresses::create([
-                'member_id'     => $member['id'],
-                'zipcode'       => $input_data['member_addresses']['zipcode'][$i],
-                'city'          => $input_data['member_addresses']['city'][$i],
-                'area'          => $input_data['member_addresses']['area'][$i],
-                'address'       => $input_data['member_addresses']['address'][$i],
-                'addressee'     => $input_data['member_addresses']['addressee'][$i],
-            ]);
-            
-            if(!$save_member_address) $save_controller = false;
         }
 
         if(!$save_controller){

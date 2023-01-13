@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\ProductCategorys;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\ProductCategorys;
 
 class Products extends Model
 {
@@ -15,6 +15,7 @@ class Products extends Model
     protected $table = 'lm_products';
 
     protected $fillable = [
+        'user_id',
         'product_name',
         'product_main_category',
         'product_category',

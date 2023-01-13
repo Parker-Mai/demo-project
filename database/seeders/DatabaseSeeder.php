@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
 use App\Models\Areas;
 use App\Models\Roles;
 use App\Models\Orders;
@@ -19,7 +21,6 @@ use App\Models\SitemapFrames;
 use App\Models\MemberAddresses;
 use App\Models\ModuleCategorys;
 use App\Models\PermissionRoles;
-use Illuminate\Database\Seeder;
 use App\Models\FrameFieldsValue;
 use App\Models\ProductCategorys;
 use App\Models\FrameFieldsSetting;
@@ -1629,5 +1630,4 @@ class DatabaseSeeder extends Seeder
         //banner管理 END
 
     }
-        
 }

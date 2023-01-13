@@ -182,7 +182,7 @@
               <ul class="navbar-nav flex-row align-items-center ms-auto">
 
                 <li class="nav-item lh-1 me-3">
-                  <a href="../frontend/index" class="btn btn-outline-dark" target="_blank">前往前台</a>
+                  <a href="/frontend/index" class="btn btn-outline-dark" target="_blank">前往前台</a>
                 </li>
 
                 <!-- User -->

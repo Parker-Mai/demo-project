@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -19,6 +19,8 @@ class Members extends Authenticatable
     protected $table = 'lm_members';
     
     protected $fillable = [
+        'login_type',
+        'api_id',
         'member_name',
         'member_password',
         'member_email',
@@ -26,7 +28,9 @@ class Members extends Authenticatable
         'member_gender',
         'member_phone',
         'member_birth',
-        'is_disabled'
+        'is_disabled',
+        'google_avatar',
+        'google_token'
     ];
 
     public function getAuthPassword(){
@@ -36,6 +40,7 @@ class Members extends Authenticatable
     protected $hidden = [
         'member_password',
         'remember_token',
+        'google_token',
     ];
 
     public function setMemberPasswordAttribute($value){ //Mutator

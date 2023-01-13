@@ -21,6 +21,7 @@
               <input type="password" class="form-control" name="login_password" id="login_password" placeholder="密碼">
             </div>
             <div class="text-center">
+              <button type="button" onclick="location.href='/frontend/member-center/google/auth'" class="btn btn-main text-center" >Google登入</button>
               <button type="submit" class="btn btn-main text-center" >登入</button>
             </div>
 

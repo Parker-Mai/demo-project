@@ -5,8 +5,8 @@ namespace App\Models;
 use App\Models\Layouts;
 use App\Models\SitemapFrames;
 use App\Models\FrameFieldsSetting;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class SitemapFrames extends Model
 {

@@ -73,15 +73,12 @@ class ProductController extends Controller
 
         $input_data = $request->all();
 
-        
         $validator = Validator::make($input_data,[
             'product_name' => 'required',
-            'product_unit' => 'required'
         ], $messages = [
             'required' => ':attribute 欄位不得為空值',
         ],[
             'product_name' => '商品名稱',
-            'product_unit' => '商品單位'
         ]);
 
         if ($validator->fails()) {
@@ -96,10 +93,10 @@ class ProductController extends Controller
             $input_data['product_img'] = $request->file('product_img')->store('product_img','public');
         }
 
+        $input_data['user_id'] = Auth::guard('admin')->user()->id;
+
         Products::create($input_data);
 
-        
-        
         return redirect('/backend/products');
     }
 
