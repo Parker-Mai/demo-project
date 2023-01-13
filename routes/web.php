@@ -80,13 +80,9 @@ Route::prefix('/frontend')->group(function(){
         
     });
 
-    
-
-    
 });
 
 Route::prefix('/backend')->group(function(){
-
 
     Route::middleware('backend.guest')->group(function(){
 
@@ -97,7 +93,6 @@ Route::prefix('/backend')->group(function(){
         Route::post('/login',[LoginController::class, 'login']);
 
     });
-
 
     Route::middleware('backend.auth')->group(function(){
 

@@ -56,9 +56,23 @@ class LoginController extends Controller
 
             $request->session()->regenerate();
 
+            LineNotify([
+                'local' => '後台登入',
+                'account' => $input_data['login_account'],
+                'cliect_ip' => $request->ip(),
+                'enter' => 'True'
+            ]);
+
             return redirect('/backend/index')->with('system_message','登入成功');
 
         }
+
+        LineNotify([
+            'local' => '後台登入',
+            'account' => $input_data['login_account'],
+            'cliect_ip' => $request->ip(),
+            'enter' => 'False'
+        ]);
 
         return  back()->with('system_message','登入失敗，請檢查帳號或密碼是否正確。');
         
@@ -92,9 +106,23 @@ class LoginController extends Controller
 
             $request->session()->regenerate();
 
+            LineNotify([
+                'local' => '前台登入',
+                'account' => $input_data['login_name'],
+                'cliect_ip' => $request->ip(),
+                'enter' => 'True'
+            ]);
+
             return redirect('/frontend/member-center/profile')->with('front_system_message','登入成功');
 
         }
+
+        LineNotify([
+            'local' => '前台登入',
+            'account' => $input_data['login_name'],
+            'cliect_ip' => $request->ip(),
+            'enter' => 'False'
+        ]);
 
         return  back()->with('front_system_message','登入失敗，請檢查帳號或密碼是否正確。');
 
