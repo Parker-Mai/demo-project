@@ -19,14 +19,14 @@ return new class extends Migration
             $table->string('api_id')->nullable();
             $table->string('member_name')->unique()->nullable();
             $table->string('member_password')->nullable();
-            $table->string('member_email')->unique();
+            $table->string('member_email');
             $table->string('member_realname');
             $table->tinyInteger('member_gender')->nullable();
             $table->string('member_phone')->nullable();
             $table->string('member_birth')->nullable();
             $table->tinyInteger('is_disabled')->default("0");
-            $table->string('google_avatar')->nullable();
-            $table->string('google_token')->nullable();
+            $table->string('avatar')->nullable();
+            $table->longText('token')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

@@ -60,8 +60,11 @@ Route::prefix('/frontend')->group(function(){
             Route::get('/signin_page',[LoginController::class , 'signin_page']);
             Route::post('/signin',[LoginController::class , 'signin']);
 
-            Route::get('/google/auth', [SocialiteController::class, 'redirectToProvider']);
-            Route::get('/google/auth/callback', [SocialiteController::class, 'handleProviderCallback']);
+            Route::get('/google/auth', [SocialiteController::class, 'redirectToProviderGoogle']);
+            Route::get('/google/auth/callback', [SocialiteController::class, 'handleProviderCallbackGoogle']);
+
+            Route::get('/facebook/auth', [SocialiteController::class, 'redirectToProviderFB']);
+            Route::get('/facebook/auth/callback', [SocialiteController::class, 'handleProviderCallbackFB']);
 
         });
 

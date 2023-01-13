@@ -29,8 +29,8 @@ class Members extends Authenticatable
         'member_phone',
         'member_birth',
         'is_disabled',
-        'google_avatar',
-        'google_token'
+        'avatar',
+        'token'
     ];
 
     public function getAuthPassword(){
