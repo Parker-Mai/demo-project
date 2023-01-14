@@ -180,7 +180,9 @@
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">
-
+                <li class="nav-item lh-1 me-3">
+                  <span style="color:red;font-size:18px;">*本網站為個人Demo網站(Side Project)<br>請勿留下真實或重要資料。</span>
+                </li>
                 <li class="nav-item lh-1 me-3">
                   <a href="/frontend/index" class="btn btn-outline-dark" target="_blank">前往前台</a>
                 </li>
@@ -239,7 +241,9 @@
                     </div>
                   </a>
                 </li>
+
               </ul>
+
             </div>
           </nav>
 

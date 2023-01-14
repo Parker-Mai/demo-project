@@ -55,8 +55,9 @@
 
 				<div class="col-md-4 col-xs-12 col-sm-4">
 					<div class="contact-number">
-						<i class="tf-ion-ios-telephone"></i>
-						<span>0129- 12323-123123</span>
+						<span style="color:red;font-size:18px;">*本網站為個人Demo網站(Side Project)<br>請勿留下真實或重要資料。</span>
+						{{-- <i class="tf-ion-ios-telephone"></i>
+						<span>0129- 12323-123123</span> --}}
 					</div>
 				</div>
 
