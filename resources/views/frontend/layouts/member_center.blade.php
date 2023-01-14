@@ -40,14 +40,22 @@
                   <li>
                     <div class="front_input_group">
                       <span>信箱:</span>
-                      <input type="text" class="form-control" name="member_email" id="member_email" placeholder="信箱" value="{{$out_data['datas']->member_email}}">
+                      <input type="text" class="form-control" name="member_email" id="member_email" placeholder="信箱" value="{{$out_data['datas']->member_email}}" 
+                      @if($out_data['datas']->login_type != 0)
+                        readonly
+                      @endif
+                      >
                     </div>
                     <small style="color:red" class="error_member_email"></small>
                   </li>
                   <li>
                     <div class="front_input_group">
                       <span>姓名:</span>
-                      <input type="text" class="form-control" name="member_realname" id="member_realname" placeholder="姓名" value="{{$out_data['datas']->member_realname}}">
+                      <input type="text" class="form-control" name="member_realname" id="member_realname" placeholder="姓名" value="{{$out_data['datas']->member_realname}}"
+                      @if($out_data['datas']->login_type != 0)
+                        readonly
+                      @endif
+                      >
                     </div>
                     <small style="color:red" class="error_member_realname"></small>
                   </li>

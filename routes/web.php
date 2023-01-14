@@ -9,6 +9,7 @@ use App\Http\Controllers\BackendController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Frontendcontroller;
 use App\Http\Controllers\SocialiteController;
+use App\Http\Controllers\MemberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +44,7 @@ Route::prefix('/frontend')->group(function(){
     Route::get('/our-quality',[Frontendcontroller::class , 'page_switch']);
 
     Route::get('/check-out',[Frontendcontroller::class , 'page_switch'])->middleware('frontend.auth')->name('check-out');
-    Route::post('/member_create_order',[OrderController::class , 'member_create_order'])->middleware('frontend.auth'); //ajax
+    Route::post('/member_create_order',[OrderController::class , 'member_create_order'])->middleware('frontend.auth');
     Route::post('/view_order_detail',[OrderController::class , 'view_order_detail'])->middleware('frontend.auth'); //ajax
     
 
@@ -105,6 +106,12 @@ Route::prefix('/backend')->group(function(){
         }
 
     });
+
+    Route::post('/members/save_addresses',[MemberController::class , 'save_addresses']);
+    Route::post('/members/delete_addresses',[MemberController::class , 'delete_addresses']);
+    Route::post('/members/member_update_data',[MemberController::class , 'member_update_data']);
+
+    Route::post('/members/make_address_data',[MemberController::class , 'make_address_data']);
 
 });
 

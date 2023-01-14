@@ -22,6 +22,7 @@ class SocialiteController extends Controller
 
         $input_data = [
             'login_type' => 1,
+            'member_name' => $user->getEmail(),
             'member_email' => $user->getEmail(),
             'member_realname' => $user->getName(),
             'avatar' => $user->getAvatar(),
@@ -53,6 +54,7 @@ class SocialiteController extends Controller
 
         $input_data = [
             'login_type' => 2,
+            'member_name' => $user->getEmail(),
             'member_email' => $user->getEmail(),
             'member_realname' => $user->getName(),
             'avatar' => $user->getAvatar(),

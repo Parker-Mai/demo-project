@@ -442,6 +442,7 @@ class MemberController extends Controller
 
     }
 
+    //縣市、區域、郵遞區號ajax
     public function make_address_data(Request $request){
 
         

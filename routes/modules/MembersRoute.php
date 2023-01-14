@@ -15,11 +15,5 @@ Route::prefix('/members')->name('members.')->group(function(){
 
     Route::post('/disable',[MemberController::class , 'disable'])->name('disable');
 
-
-    Route::post('/save_addresses',[MemberController::class , 'save_addresses']);
-    Route::post('/delete_addresses',[MemberController::class , 'delete_addresses']);
-    Route::post('/member_update_data',[MemberController::class , 'member_update_data']);
-
-    Route::post('/make_address_data',[MemberController::class , 'make_address_data']);
 });
 ?>

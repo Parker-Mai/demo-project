@@ -186,22 +186,41 @@ class OrderController extends Controller
 
         //檢查是否登入
         if(!Auth::guard('web')->check()){
-            return json_encode(['status' => 'NO','error' => 'auth'],JSON_UNESCAPED_UNICODE);
+            return redirect('/frontend/login_page')->with('front_system_message', '請先登入會員。');
+            // return json_encode(['status' => 'NO','error' => 'auth'],JSON_UNESCAPED_UNICODE);
         }
 
+        // //檢查 是否有選擇付款方式
+        // if(empty($request->payment_method)) return json_encode(['status' => 'NO','error' => 'required','field' => '付款方式'],JSON_UNESCAPED_UNICODE);
+        // //檢查 聯絡電話
+        // if(empty($request->contact_phone)) return json_encode(['status' => 'NO','error' => 'required','field' => '聯絡電話'],JSON_UNESCAPED_UNICODE);
+        // //檢查是否有輸入門市店號
+        // if($request->payment_method == 1){
+        //     if(empty($request->local_number)) return json_encode(['status' => 'NO','error' => 'required','field' => '門市店號'],JSON_UNESCAPED_UNICODE);
+        // }
+        // //檢查 收件地址收件人
+        // if($request->payment_method == 2){
+        //     if(empty($request->order_address)) return json_encode(['status' => 'NO','error' => 'required','field' => '收件人及收件地址'],JSON_UNESCAPED_UNICODE);
+        // }
+
+        $required_error = [];
+        
         //檢查 是否有選擇付款方式
-        if(empty($request->payment_method)) return json_encode(['status' => 'NO','error' => 'required','field' => '付款方式'],JSON_UNESCAPED_UNICODE);
+        if(empty($request->payment_method)) $required_error[] = '付款方式';
         //檢查 聯絡電話
-        if(empty($request->contact_phone)) return json_encode(['status' => 'NO','error' => 'required','field' => '聯絡電話'],JSON_UNESCAPED_UNICODE);
+        if(empty($request->contact_phone)) $required_error[] = '聯絡電話';
         //檢查是否有輸入門市店號
         if($request->payment_method == 1){
-            if(empty($request->local_number)) return json_encode(['status' => 'NO','error' => 'required','field' => '門市店號'],JSON_UNESCAPED_UNICODE);
+            if(empty($request->local_number)) $required_error[] = '門市店號';
         }
         //檢查 收件地址收件人
         if($request->payment_method == 2){
-            if(empty($request->order_address)) return json_encode(['status' => 'NO','error' => 'required','field' => '收件人及收件地址'],JSON_UNESCAPED_UNICODE);
+            if(empty($request->order_address)) $required_error[] = '收件人及收件地址';
         }
         
+        if(count($required_error) > 0){
+            return back()->with('front_system_message',implode('、',$required_error).' 不得為空。');
+        }
 
         $member_id = Auth::guard('web')->user()->id;
 
@@ -216,8 +235,10 @@ class OrderController extends Controller
         //開始計算訂單總計
         //抓購物車所有商品
         $product_carts = ProductCarts::where('member_id','=',$member_id)->where('order_id','=',null)->get();
+        $product_cart_arr = [];
         $order_total = 0;
         foreach($product_carts as $product_cart){
+            $product_cart_arr[] = $product_cart->product_id;
             $order_total += $product_cart->total;
         }
         $order_total += $shipping;
@@ -245,14 +266,27 @@ class OrderController extends Controller
             'contact_phone' => $request->contact_phone,
             'order_address' => $request->order_address,
             'shipping' => $shipping,
+            'product_cart_arr' => $product_cart_arr,
             'order_total' => $order_total,
             'status' => 1
         ];
 
-        //綠界api物流串接
-        $link_api = $this->ecpay_api_link($save_data);
+        $request->payment_method = 3;
+        if($request->payment_method != 3){
 
-        if(!$link_api) return json_encode(['status' => 'NO','error' => 'api'],JSON_UNESCAPED_UNICODE);
+            //綠界api物流串接
+            $link_api = $this->ecpay_api_link($save_data);
+
+        }else{
+            
+            $link_api = $this->ecpay_api_payment($save_data);
+
+        }
+        
+
+        // if(!$link_api) return json_encode(['status' => 'NO','error' => 'api'],JSON_UNESCAPED_UNICODE);
+
+        if(!$link_api) return back()->with('front_system_message','系統錯誤(A001)，請聯絡我們');
 
         $save_data['api_trade_uid'] = $link_api['1|AllPayLogisticsID'];
         $save_data['api_payment_no'] = $link_api['CVSPaymentNo'];
@@ -279,13 +313,15 @@ class OrderController extends Controller
 
         if(!$save_controller){
             DB::rollBack();
-
-            return json_encode(['status' => 'NO','error' => 'save'],JSON_UNESCAPED_UNICODE);
+            return back()->with('front_system_message','系統錯誤(A002)，請聯絡我們');
+            // return json_encode(['status' => 'NO','error' => 'save'],JSON_UNESCAPED_UNICODE);
         }else{
             DB::commit();
         }
+        
 
-        return json_encode(['status' => 'YES'],JSON_UNESCAPED_UNICODE);
+        return redirect('/frontend/member-center/order_list')->with('front_system_message', '訂單建立成功。');
+        // return json_encode(['status' => 'YES'],JSON_UNESCAPED_UNICODE);
     }
 
     public function view_order_detail(Request $request){
@@ -484,4 +520,102 @@ class OrderController extends Controller
 
     }
 
+    public function ecpay_api_payment($data){
+        
+        //處理訂單商品字串 START
+            $order_content = "";
+            for($i=0;$i<count($data['product_cart_arr']);$i++){
+
+                $products = Products::find($data['product_cart_arr'][$i]);
+
+                $order_content .= $products->product_name;
+                
+                if($i != count($data['product_cart_arr'])-1){
+                    $order_content .= "#";
+                }
+
+            }
+        //處理訂單商品字串 END
+
+        // $url = "https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5";
+
+        // $api_data = [
+        //     'HashKey'           => 'pwFHCqoQZGmho4w6',
+        //     'ChoosePayment'     => 'Credit',
+        //     'EncryptType'       => 1,
+        //     'ItemName'          => '測試商品',
+        //     'MerchantID'        => '3002607',
+        //     'MerchantTradeDate' => date('Y/m/d H:i:s'),
+        //     'MerchantTradeNo'   => 'ORDER'.date('YmdHis'),
+        //     'PaymentType'       => 'aio',
+        //     'ReturnURL'         => 'http://127.0.0.1/frontend/show_api_status',
+        //     'TotalAmount'       => $data['order_total'],
+        //     'TradeDesc'         => 'Demo金流串接',
+        //     'HashIV'            => 'EkRm7iFT261dpevs'
+        // ];
+
+        // $send_data = [
+        //     'ChoosePayment'     => 'Credit',
+        //     'EncryptType'       => 1,
+        //     'ItemName'          => '測試商品',
+        //     'MerchantID'        => '3002607',
+        //     'MerchantTradeDate' => date('Y/m/d H:i:s'),
+        //     'MerchantTradeNo'   => 'ORDER'.date('YmdHis'),
+        //     'PaymentType'       => 'aio',
+        //     'ReturnURL'         => 'http://127.0.0.1/frontend/show_api_status',
+        //     'TotalAmount'       => $data['order_total'],
+        //     'TradeDesc'         => 'Demo金流串接',
+        // ];
+
+        // $api_data_str = "";
+        // $counter = 1;
+        // foreach($api_data as $k => $v){
+
+        //     if($counter == 1){
+        //         $api_data_str .= $k.'='.$v;
+        //     }else{
+        //         $api_data_str .= '&'.$k.'='.$v;
+        //     }
+
+        //     $counter++;
+        // }
+
+        // $checkvalue = strtolower(urlencode($api_data_str));
+
+        // $search = [
+        //     '%2d',
+        //     '%5f',
+        //     '%2e',
+        //     '%21',
+        //     '%2a',
+        //     '%28',
+        //     '%29',
+        // ];
+        // $replace = [
+        //     '-',
+        //     '_',
+        //     '.',
+        //     '!',
+        //     '*',
+        //     '(',
+        //     ')',
+        // ];
+        // $checkvalue = str_replace($search, $replace, $checkvalue);
+
+        // $checkvalue = strtoupper(hash('sha256',$checkvalue));
+
+        // $send_data['CheckMacValue'] = $checkvalue;
+
+        // $ch = curl_init();
+        // curl_setopt($ch, CURLOPT_URL, $url);
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // curl_setopt($ch, CURLOPT_FOLLOWLOCATION,true);
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);  
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE); 
+        // curl_setopt($ch, CURLOPT_POSTFIELDS, $send_data); 
+        // $result = curl_exec($ch);
+        // curl_close($ch);
+    
+
+    }
 }
