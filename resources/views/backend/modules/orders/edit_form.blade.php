@@ -30,16 +30,14 @@
             </div>
           </div>
 
-          <div class="row mb-3">
-            <label class="col-sm-2 col-form-label" for="">綠界物流交易編號</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" value="{{$api_trade_uid}}" readonly disabled>
-            </div>
-          </div>
-
-          
-
           @if($payment_method == 1)
+
+            <div class="row mb-3">
+              <label class="col-sm-2 col-form-label" for="">綠界物流交易編號</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" value="{{$api_trade_uid}}" readonly disabled>
+              </div>
+            </div>
 
             <div class="row mb-3">
               <label class="col-sm-2 col-form-label" for="">付款方式</label>
@@ -54,14 +52,29 @@
                 <input type="text" class="form-control" value="131386新竹市東區建中一路52號1樓(建盛門市)" readonly disabled>
               </div>
             </div>
-          @else
 
-          <div class="row mb-3">
-            <label class="col-sm-2 col-form-label" for="">付款方式</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" value="宅配：黑貓" readonly disabled>
+            <div class="row mb-3">
+              <label class="col-sm-2 col-form-label" for="">收件人</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" value="{{$addressee}}" readonly disabled>
+              </div>
             </div>
-          </div>
+
+          @elseif($payment_method == 2)
+
+            <div class="row mb-3">
+              <label class="col-sm-2 col-form-label" for="">綠界物流交易編號</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" value="{{$api_trade_uid}}" readonly disabled>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label class="col-sm-2 col-form-label" for="">付款方式</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" value="宅配：黑貓" readonly disabled>
+              </div>
+            </div>
 
             <div class="row mb-3">
               <label class="col-sm-2 col-form-label" for="">收件地址</label>
@@ -69,14 +82,22 @@
                 <input type="text" class="form-control" value="{{$all_address}}" readonly disabled>
               </div>
             </div>
-          @endif
 
-          <div class="row mb-3">
-            <label class="col-sm-2 col-form-label" for="">收件人</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" value="{{$addressee}}" readonly disabled>
+            <div class="row mb-3">
+              <label class="col-sm-2 col-form-label" for="">收件人</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" value="{{$addressee}}" readonly disabled>
+              </div>
             </div>
-          </div>
+
+          @elseif($payment_method == 3)
+            <div class="row mb-3">
+              <label class="col-sm-2 col-form-label" for="">付款方式</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" value="信用卡/金融卡付款" readonly disabled>
+              </div>
+            </div>
+          @endif
 
           <div class="row mb-3">
             <label class="col-sm-2 col-form-label" for="">聯絡電話</label>

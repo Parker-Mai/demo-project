@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 
+use Ecpay\Sdk\Factories\Factory;
+use Ecpay\Sdk\Services\UrlService;
+
 class OrderController extends Controller
 {
 
@@ -186,22 +189,10 @@ class OrderController extends Controller
 
         //檢查是否登入
         if(!Auth::guard('web')->check()){
-            return redirect('/frontend/login_page')->with('front_system_message', '請先登入會員。');
-            // return json_encode(['status' => 'NO','error' => 'auth'],JSON_UNESCAPED_UNICODE);
-        }
 
-        // //檢查 是否有選擇付款方式
-        // if(empty($request->payment_method)) return json_encode(['status' => 'NO','error' => 'required','field' => '付款方式'],JSON_UNESCAPED_UNICODE);
-        // //檢查 聯絡電話
-        // if(empty($request->contact_phone)) return json_encode(['status' => 'NO','error' => 'required','field' => '聯絡電話'],JSON_UNESCAPED_UNICODE);
-        // //檢查是否有輸入門市店號
-        // if($request->payment_method == 1){
-        //     if(empty($request->local_number)) return json_encode(['status' => 'NO','error' => 'required','field' => '門市店號'],JSON_UNESCAPED_UNICODE);
-        // }
-        // //檢查 收件地址收件人
-        // if($request->payment_method == 2){
-        //     if(empty($request->order_address)) return json_encode(['status' => 'NO','error' => 'required','field' => '收件人及收件地址'],JSON_UNESCAPED_UNICODE);
-        // }
+            return redirect('/frontend/login_page')->with('front_system_message', '請先登入會員。');
+
+        }
 
         $required_error = [];
         
@@ -219,7 +210,9 @@ class OrderController extends Controller
         }
         
         if(count($required_error) > 0){
+
             return back()->with('front_system_message',implode('、',$required_error).' 不得為空。');
+
         }
 
         $member_id = Auth::guard('web')->user()->id;
@@ -259,37 +252,65 @@ class OrderController extends Controller
         $order_uid = "#".date('Ymd').str_pad($last_order_uid,4,0,STR_PAD_LEFT);
 
         $save_data = [
-            'order_uid' => $order_uid,
-            'member_id' => $member_id,
-            'local_number' => $request->local_number,
-            'payment_method' => $request->payment_method,
-            'contact_phone' => $request->contact_phone,
-            'order_address' => $request->order_address,
-            'shipping' => $shipping,
-            'product_cart_arr' => $product_cart_arr,
-            'order_total' => $order_total,
-            'status' => 1
+            'order_uid'         => $order_uid,
+            'member_id'         => $member_id,
+            'local_number'      => $request->local_number,
+            'payment_method'    => $request->payment_method,
+            'contact_phone'     => $request->contact_phone,
+            'order_address'     => $request->order_address,
+            'shipping'          => $shipping,
+            'product_cart_arr'  => $product_cart_arr,
+            'order_total'       => $order_total,
+            'status'            => 1
         ];
 
-        $request->payment_method = 3;
         if($request->payment_method != 3){
 
             //綠界api物流串接
             $link_api = $this->ecpay_api_link($save_data);
 
+            $save_data['api_trade_uid'] = $link_api['1|AllPayLogisticsID'];
+
+            $save_data['api_payment_no'] = $link_api['CVSPaymentNo'];
+
+            if(!$link_api) return back()->with('front_system_message','系統錯誤(A001)，請聯絡我們');
+
+            //進DB
+            $chk = $this->order_in_db($save_data);
+
         }else{
-            
-            $link_api = $this->ecpay_api_payment($save_data);
+
+            //進DB
+            $chk = $this->order_in_db($save_data,$member_id);
+
+            //綠界金流
+            $this->ecpay_api_payment($save_data);
 
         }
         
+        if(!$chk){
 
-        // if(!$link_api) return json_encode(['status' => 'NO','error' => 'api'],JSON_UNESCAPED_UNICODE);
+            return back()->with('front_system_message','系統錯誤(A002)，請聯絡我們');
 
-        if(!$link_api) return back()->with('front_system_message','系統錯誤(A001)，請聯絡我們');
+        }else{
 
-        $save_data['api_trade_uid'] = $link_api['1|AllPayLogisticsID'];
-        $save_data['api_payment_no'] = $link_api['CVSPaymentNo'];
+            return redirect('/frontend/member-center/order_list')->with('front_system_message', '訂單建立成功。');
+
+        }    
+        
+    }
+
+    public function show_api_status_client(Request $request){
+
+        if($request->RtnCode != 1){
+            return redirect('/frontend/member-center/cart_list')->with('front_system_message', '系統錯誤(A003)，請聯絡我們');
+        }else{
+            return redirect('/frontend/index')->with('front_system_message', '訂單建立成功。');
+        }
+
+    }
+
+    public function order_in_db($save_data,$member_id){
 
         //開始建立訂單
         $save_controller = true;
@@ -313,15 +334,14 @@ class OrderController extends Controller
 
         if(!$save_controller){
             DB::rollBack();
-            return back()->with('front_system_message','系統錯誤(A002)，請聯絡我們');
-            // return json_encode(['status' => 'NO','error' => 'save'],JSON_UNESCAPED_UNICODE);
+
+            return false;
         }else{
             DB::commit();
-        }
-        
 
-        return redirect('/frontend/member-center/order_list')->with('front_system_message', '訂單建立成功。');
-        // return json_encode(['status' => 'YES'],JSON_UNESCAPED_UNICODE);
+            return true;
+        }
+
     }
 
     public function view_order_detail(Request $request){
@@ -362,6 +382,7 @@ class OrderController extends Controller
     }
 
 
+    //綠界物流api
     public function ecpay_api_link($data){
 
         $memeber = Members::find($data['member_id']);
@@ -520,6 +541,7 @@ class OrderController extends Controller
 
     }
 
+    //綠界金流api
     public function ecpay_api_payment($data){
         
         //處理訂單商品字串 START
@@ -615,7 +637,33 @@ class OrderController extends Controller
         // curl_setopt($ch, CURLOPT_POSTFIELDS, $send_data); 
         // $result = curl_exec($ch);
         // curl_close($ch);
-    
+
+
+        $factory = new Factory([
+            'hashKey' => 'pwFHCqoQZGmho4w6',
+            'hashIv' => 'EkRm7iFT261dpevs',
+        ]);
+        $autoSubmitFormService = $factory->create('AutoSubmitFormWithCmvService');
+        
+        $input = [
+            'MerchantID'        => '3002607',
+            'MerchantTradeNo'   => 'ORDER' . time(),
+            'MerchantTradeDate' => date('Y/m/d H:i:s'),
+            'PaymentType'       => 'aio',
+            'TotalAmount'       => $data['order_total'],
+            'TradeDesc'         => UrlService::ecpayUrlEncode('Demo金流串接，請勿流真實資料。'),
+            'ItemName'          => $order_content,
+            'ChoosePayment'     => 'Credit',
+            'EncryptType'       => 1,
+        
+            'ReturnURL' => 'http://127.0.0.1:8000/frontend/show_api_status',
+            'OrderResultURL' => 'http://127.0.0.1:8000/frontend/show_api_status_client',
+        ];
+
+        $action = 'https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5';
+        
+        echo $autoSubmitFormService->generate($input, $action);
+        die();
 
     }
 }

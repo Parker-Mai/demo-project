@@ -47,7 +47,12 @@ Route::prefix('/frontend')->group(function(){
     Route::post('/member_create_order',[OrderController::class , 'member_create_order'])->middleware('frontend.auth');
     Route::post('/view_order_detail',[OrderController::class , 'view_order_detail'])->middleware('frontend.auth'); //ajax
     
+    Route::post('/show_api_status', function (Request $request) {
+        dd($request);
+    });
 
+    Route::post('/show_api_status_client',[OrderController::class , 'show_api_status_client']);
+    
     Route::post('/add_cart',[ProductController::class , 'add_cart']); //ajax
     Route::post('/view_cart',[ProductController::class , 'view_cart']); //ajax
     Route::post('/delete_cart',[ProductController::class , 'delete_cart']); //ajax
@@ -76,7 +81,6 @@ Route::prefix('/frontend')->group(function(){
             Route::get('/cart_list',[Frontendcontroller::class , 'page_switch']);
             Route::get('/order_list',[Frontendcontroller::class , 'page_switch']);
 
-            
         });
         
     });

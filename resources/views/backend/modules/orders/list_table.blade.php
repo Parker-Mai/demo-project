@@ -52,8 +52,10 @@
           <td>
             @if($data->payment_method == 1)
               7-11取貨付款
-            @else
+            @elseif($data->payment_method == 2)
               宅配：黑貓
+            @elseif($data->payment_method == 3)
+              信用卡/金融卡付款
             @endif
           </td>
           <td>{{$data->order_total}}</td>

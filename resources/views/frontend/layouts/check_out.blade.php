@@ -40,7 +40,14 @@
                     <option value="">請選擇</option>
                     <option value="1">7-11取貨付款(70元)</option>
                     <option value="2">宅配:黑貓貨到付款(60元)</option>
+                    <option value="3">信用卡一次付清</option>
                   </select>
+              </div>
+
+              <div class="form-group paymethod_credit">
+                <span style="color:red">*金流功能完成度80%，可正常運作。</span><br>
+                <span style="color:red">*測試環境，信用卡號請使用4311-9522-2222-2222，安全碼為222。</span><br>
+                <span style="color:red">*測試環境，請勿留真實或重要資訊。</span>
               </div>
 
               <div class="form-group paymethod_711">
@@ -154,7 +161,7 @@
 <script>
 
   $(function(){
-    $('.paymethod_711').hide();
+    $('.paymethod_711,.paymethod_credit').hide();
   })
 
   $('#payment_method').change(function(){
@@ -163,12 +170,17 @@
       case "1":
         var shipping = 70;
         $('.paymethod_711').show();
-        $('.order_address').hide();
+        $('.order_address,.paymethod_credit').hide();
         break;
       case "2":
         var shipping = 60;
         $('.order_address').show();
-        $('.paymethod_711').hide();
+        $('.paymethod_711,.paymethod_credit').hide();
+        break;
+      case "3":
+        var shipping = 0;
+        $('.paymethod_credit').show();
+        $('.order_address,.paymethod_711').hide();
         break;
       default: 
         var shipping = 0;
