@@ -276,7 +276,7 @@ class OrderController extends Controller
             if(!$link_api) return back()->with('front_system_message','系統錯誤(A001)，請聯絡我們');
 
             //進DB
-            $chk = $this->order_in_db($save_data);
+            $chk = $this->order_in_db($save_data,$member_id);
 
         }else{
 
